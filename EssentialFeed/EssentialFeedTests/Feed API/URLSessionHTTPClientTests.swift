@@ -28,12 +28,13 @@ class URLSessionHTTPClient {
 final class URLSessionHTTPClientTests: XCTestCase {
     
     override class func setUp() {
+        super.setUp()
         URLProtocolStub.startInterceptingRequests()
     }
     
     override class func tearDown() {
+        super.tearDown()
         URLProtocolStub.stopInterceptingRequests()
-
     }
     
     func test_getFromURL_performsGETRequestWithUrl() {
