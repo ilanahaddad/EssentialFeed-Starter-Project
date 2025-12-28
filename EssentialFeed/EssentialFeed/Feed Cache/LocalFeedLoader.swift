@@ -38,8 +38,12 @@ public class LocalFeedLoader {
             }
     }
     
-    public func load() {
-        store.retrieve()
+    public func load(completion: @escaping (SaveResult) -> Void) {
+        store.retrieve { error in
+            if let retrievalError = error {
+                completion(retrievalError)
+            }
+        }
     }
 }
 
