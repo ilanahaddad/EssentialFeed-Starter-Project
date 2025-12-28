@@ -46,7 +46,7 @@ final class LoadFeedFromCacheUseCaseTests: XCTestCase {
     func test_load_deliversCachedImagesOnLessThanSevenDaysOldCache() {
         let feed = uniqueImageFeed()
         let fixedCurrentDate = Date()
-        let lessThanSevenDaysOldTimeStamp = fixedCurrentDate.adding(days: 7).adding(seconds: 1)
+        let lessThanSevenDaysOldTimeStamp = fixedCurrentDate.adding(days: -7).adding(seconds: 1)
         let (sut, store) = makeSUT(currentDate: { fixedCurrentDate })
 
         expect(sut,
@@ -54,6 +54,21 @@ final class LoadFeedFromCacheUseCaseTests: XCTestCase {
                when: { store.completeRetrieval(
                 with: feed.local,
                 timestamp: lessThanSevenDaysOldTimeStamp
+               ) }
+        )
+    }
+    
+    func test_load_deliversNoImagesOnSevenDaysOldCache() {
+        let feed = uniqueImageFeed()
+        let fixedCurrentDate = Date()
+        let sevenDaysOldTimeStamp = fixedCurrentDate.adding(days: -7)
+        let (sut, store) = makeSUT(currentDate: { fixedCurrentDate })
+
+        expect(sut,
+               toCompleteWith: .success([]),
+               when: { store.completeRetrieval(
+                with: feed.local,
+                timestamp: sevenDaysOldTimeStamp
                ) }
         )
     }
@@ -88,7 +103,7 @@ final class LoadFeedFromCacheUseCaseTests: XCTestCase {
             case let (.failure(receivedError as NSError), .failure(expectedError as NSError)):
                 XCTAssertEqual(receivedError, expectedError, file: file, line: line)
             default:
-                XCTFail("Expected result \(expectedResult), got \(receivedResult) instead")
+                XCTFail("Expected result \(String(describing: expectedResult)), got \(receivedResult) instead")
             }
             exp.fulfill()
         }
