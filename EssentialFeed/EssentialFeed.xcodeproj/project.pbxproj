@@ -41,7 +41,7 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				FeedStore.swift,
-				LocalFeedItem.swift,
+				LocalFeedImage.swift,
 				LocalFeedLoader.swift,
 				RemoteFeedItem.swift,
 			);
