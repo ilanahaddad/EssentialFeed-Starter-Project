@@ -48,6 +48,7 @@ public class LocalFeedLoader {
             case .found, .empty:
                 completion(.success([]))
             case let .failure(retrievalError):
+                self.store.deleteCachedFeed { _ in }
                 completion(.failure(retrievalError))
             }
         }
