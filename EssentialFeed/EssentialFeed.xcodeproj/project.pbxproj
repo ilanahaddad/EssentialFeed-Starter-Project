@@ -50,6 +50,7 @@
 		F230D4FB2EFD91C900C7E618 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				SharedTestHelpers.swift,
 				"XCTTestCase+MemoryLeakTracking.swift",
 			);
 			target = F24E35732EE6690700731425 /* EssentialFeedAPIEndToEndTests */;
