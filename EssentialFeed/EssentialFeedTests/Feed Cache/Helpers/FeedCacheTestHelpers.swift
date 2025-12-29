@@ -23,13 +23,10 @@ func uniqueImage() -> FeedImage {
     )
 }
 
+// cache-policy specific DSL
 extension Date {
-    func adding(days: Int) -> Date {
+    private func adding(days: Int) -> Date {
         return Calendar(identifier: .gregorian).date(byAdding: .day, value: days, to: self)!
-    }
-    
-    func adding(seconds: TimeInterval) -> Date {
-        return self + seconds
     }
     
     private var feedCacheMaxAgeInDays: Int {
@@ -38,5 +35,12 @@ extension Date {
     
     func minusFeedCacheMaxAge() -> Date {
         return adding(days: -feedCacheMaxAgeInDays)
+    }
+}
+
+// reusable DSL helper
+extension Date {
+    func adding(seconds: TimeInterval) -> Date {
+        return self + seconds
     }
 }
