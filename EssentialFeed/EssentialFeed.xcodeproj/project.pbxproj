@@ -40,6 +40,7 @@
 		F2301B922F009D7100C7E618 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				CodableFeedStore.swift,
 				FeedCachePolicy.swift,
 				FeedStore.swift,
 				LocalFeedImage.swift,
