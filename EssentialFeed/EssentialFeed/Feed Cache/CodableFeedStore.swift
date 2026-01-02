@@ -35,8 +35,7 @@ public class CodableFeedStore: FeedStore {
         }
     }
     
-    // serial background queue
-    private let queue = DispatchQueue(label: "\(CodableFeedStore.self)Queue", qos: .userInitiated)
+    private let queue = DispatchQueue(label: "\(CodableFeedStore.self)Queue", qos: .userInitiated, attributes: .concurrent)
     private let storeURL: URL
     
     public init(storeURL: URL) {
@@ -45,7 +44,7 @@ public class CodableFeedStore: FeedStore {
     
     public func retrieve(completion: @escaping RetrievalCompletion) {
         let storeURL = self.storeURL
-        queue.async {
+        queue.async { // runs concurrently
             guard let data = try? Data(contentsOf: storeURL) else {
                 return completion(.empty)
             }
@@ -59,9 +58,10 @@ public class CodableFeedStore: FeedStore {
         }
     }
     
+    // add .barrier to block operations that have side effects (runs serially)
     public func insert(_ feed: [LocalFeedImage], timestamp: Date, completion: @escaping InsertionCompletion) {
         let storeURL = self.storeURL
-        queue.async {
+        queue.async(flags: .barrier) {
             do {
                 let encoder = JSONEncoder()
                 let cache = Cache(feed: feed.map({ CodableFeedImage($0) }), timestamp: timestamp)
@@ -74,9 +74,10 @@ public class CodableFeedStore: FeedStore {
         }
     }
     
+    // add .barrier to block operations that have side effects (runs serially)
     public func deleteCachedFeed(completion: @escaping DeletionCompletion) {
         let storeURL = self.storeURL
-        queue.async {
+        queue.async(flags: .barrier) {
             guard FileManager.default.fileExists(atPath: storeURL.path) else {
                 return completion(nil)
             }
