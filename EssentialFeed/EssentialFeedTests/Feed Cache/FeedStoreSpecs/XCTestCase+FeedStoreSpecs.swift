@@ -1,5 +1,5 @@
 //
-//  XCTestCase+FeedStoreSpects.swift
+//  XCTestCase+FeedStoreSpecs.swift
 //  EssentialFeedTests
 //
 //  Created by Ilana Haddad on 2026-01-02.
