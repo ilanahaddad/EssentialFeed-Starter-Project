@@ -1,0 +1,46 @@
+//
+//  FeedCacheTestHelpers.swift
+//  EssentialFeedTests
+//
+//  Created by Ilana Haddad on 2025-12-29.
+//
+
+import EssentialFeed
+import Foundation
+
+func uniqueImageFeed() -> (models: [FeedImage], local: [LocalFeedImage]) {
+    let models = [uniqueImage(), uniqueImage()]
+    let local = models.map { LocalFeedImage(id: $0.id, description: $0.description, location: $0.location, url: $0.url) }
+    return (models, local)
+}
+
+func uniqueImage() -> FeedImage {
+    return FeedImage(
+        id: UUID(),
+        description: "Description",
+        location: "any",
+        url: anyURL()
+    )
+}
+
+// cache-policy specific DSL
+extension Date {
+    private func adding(days: Int) -> Date {
+        return Calendar(identifier: .gregorian).date(byAdding: .day, value: days, to: self)!
+    }
+    
+    private var feedCacheMaxAgeInDays: Int {
+        7
+    }
+    
+    func minusFeedCacheMaxAge() -> Date {
+        return adding(days: -feedCacheMaxAgeInDays)
+    }
+}
+
+// reusable DSL helper
+extension Date {
+    func adding(seconds: TimeInterval) -> Date {
+        return self + seconds
+    }
+}
