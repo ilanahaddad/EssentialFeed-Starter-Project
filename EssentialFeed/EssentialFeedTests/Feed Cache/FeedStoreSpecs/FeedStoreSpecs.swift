@@ -7,7 +7,7 @@
 
 import Foundation
 
-typealias FailableFeedStore = FailableRetrieveSpecs & FailableInsertSpecs & FailableDelectsSpecs
+typealias FailableFeedStore = FailableRetrieveSpecs & FailableInsertSpecs & FailableDeleteSpecs
 
 protocol FeedStoreSpecs {
     func test_retrieve_deliversEmptyOnEmptyCache()
@@ -37,7 +37,7 @@ protocol FailableInsertSpecs: FeedStoreSpecs {
     func test_insert_hasNoSideEffectsOnInsertionError()
 }
 
-protocol FailableDelectsSpecs: FeedStoreSpecs {
+protocol FailableDeleteSpecs: FeedStoreSpecs {
     func test_delete_deliversErrorOnDeletionError()
     func test_delete_hasNoSideEffectsOnDeletionError()
 }
